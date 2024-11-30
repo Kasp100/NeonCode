@@ -44,7 +44,6 @@ In copyables:
 
 ### Primitives and pass-by-value
 Primitives are pass-by-value types (meaning they're copied rather than passed by a reference) and can be serialised.
-Use the keyword `primitive`, you can define your own primitive. More on that later.
 
 All primitive types have their names starting with `#` to signal pass-by-value. Furthermore, any pass-by-value/primitive type **must** have its name start with `#`.
 
