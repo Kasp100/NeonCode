@@ -190,7 +190,6 @@ Once initialised, its size cannot be changed though its values can.
 1. Avoid using `var` if the reference will never be reassigned.
 2. Avoid using `shared` if the object is never referenced elsewhere.
 3. Avoid using `mut:` if the object will not be mutated.
-4. Use `non_copy` instead of `copy` for immutable types.
 
 ---
 
