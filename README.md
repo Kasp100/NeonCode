@@ -254,9 +254,9 @@ public class bank_account
 		ret transactions_history; // An immutable view can always be returned
 	}
 
-	public float get_balance()
+	public #float get_balance()
 	{
-		var float balance = 0;
+		var #float balance = 0;
 
 		foreach transactions_history (transaction tr)
 		{
