@@ -332,11 +332,11 @@ public class s_license_plate serialisable
 	{
 		try
 		{
-			return optional::of(license_plate(chars))
+			ret optional::of(license_plate(chars))
 		}
 		catch (invalid_char e)
 		{
-			return optional::empty();
+			ret optional::empty();
 		}
 
 	}
