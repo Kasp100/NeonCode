@@ -80,7 +80,7 @@ Characters can be any character in UTF-32.
 
 ## Immutability by Default
 When specifying a type, you need to prefix it with `mut:` if you intend on mutating the object or array.  
-However, an object may be mutated from another scope if it is `shared` and the type itself is mutable.  
+However, an object or array may be mutated from another scope if it is `shared` and the type itself is mutable.  
 Developers need to clearly state their intentions by using `mut:` or not.
 
 For mutable types:
@@ -119,7 +119,7 @@ To enable reassignment after the initial assignment of a variable or field, use 
 ### Shared (`shared`) for reference types
 The `shared` keyword can be used with **mutable reference types** and not primitive types.
 
-- `shared` allows an object to be referenced and potentially mutated from multiple locations.  
+- `shared` allows an object or array to be referenced and potentially mutated from multiple locations.  
 - Mutating shared objects reflects in all references but is **not** considered mutating their containing objects.
 
 > Use `shared` cautiously to avoid unintended side effects.
@@ -156,7 +156,7 @@ You can also directly copy the object or array inside the parameters by stating 
 Constants are static fields in a class, non-reassignable, and immutable.
 Conventionally you make them all caps.
 
-> Beware that using constants makes your program less flexible. Sometimes a field is just as effective.
+> Beware that using constants makes your program less flexible. A field may be more effective.
 
 ---
 
