@@ -201,10 +201,11 @@ It is also possible to use grammar from other packages (just like imports, e.g. 
 
 A **rule** inside grammar sets is a special kind of **function**.
 
-Their declaration follows the following syntax:
+Rules follow the following syntax:
 - Optionally start with their **subordination**, an integer to determine the precedence of each rule. (Where **0** is the most precedence / least subordination.)
 - Followed by their **return type**.
 - Followed by their individual grammar, where curly brackets indicate parameters to be passed.
+- Ending in their **function body**
 
 It is important to note the limitation of custom grammar:  
 The **grammar set** itself needs to be parsed before being used with `parse`.
