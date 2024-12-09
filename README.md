@@ -80,7 +80,7 @@ Characters can be any character in UTF-32.
 
 ## Immutability by Default
 When specifying a type, you need to prefix it with `mut:` if you intend on mutating the object or array.  
-However, an object or array may be mutated from another scope if it is `shared` and the type itself is mutable.  
+However, an object may be mutated from another scope if it is `shared` and the type itself is mutable.  
 Developers need to clearly state their intentions by using `mut:` or not.
 
 For mutable types:
@@ -119,7 +119,7 @@ To enable reassignment after the initial assignment of a variable or field, use 
 ### Shared (`shared`) for reference types
 The `shared` keyword can be used with **mutable reference types** and not primitive types.
 
-- `shared` allows an object or array to be referenced and potentially mutated from multiple locations.  
+- `shared` allows an object to be referenced and potentially mutated from multiple locations.  
 - Mutating shared objects reflects in all references but is **not** considered mutating their containing objects.
 
 > Use `shared` cautiously to avoid unintended side effects.
@@ -156,7 +156,7 @@ You can also directly copy the object or array inside the parameters by stating 
 Constants are static fields in a class, non-reassignable, and immutable.
 Conventionally you make them all caps.
 
-> Beware that using constants makes your program less flexible. Sometimes a field is more effective.
+> Beware that using constants makes your program less flexible. Sometimes a field is just as effective.
 
 ---
 
@@ -187,9 +187,99 @@ Once initialised, its size cannot be changed though its values can.
 
 ## Developer Guidelines
 
-1. Avoid using `var` if the reference will never be reassigned.
-2. Avoid using `shared` if the object is never referenced elsewhere.
-3. Avoid using `mut:` if the object will not be mutated.
+1. Avoid using `var` if the field or variable will never be reassigned.
+2. Avoid using `shared` if the object or array is never referenced elsewhere.
+3. Avoid using `mut:` if the object or array will never be mutated from the scope its referenced by.
+
+---
+
+## Custom Grammar
+
+NeonCode allows custom grammar using the `grammar` keyword. This indicates the definition of a **grammar set**. Grammar sets are scoped like classes.  
+Custom grammar will be parsed if the `parse` keyword is used. This makes the parser take the custom grammar into account.  
+It is also possible to use grammar from other packages (just like imports, e.g. `parse math::big_decimal_arithmetic;`).  
+
+A **rule** inside grammar sets is a special kind of **function**.
+
+Their declaration follows the following syntax:
+- Optionally start with their **subordination**, an integer to determine the precedence of each rule. (Where **0** is the most precedence / least subordination.)
+- Followed by their **return type**.
+- Followed by their individual grammar, where curly brackets indicate parameters to be passed.
+
+It is important to note the limitation of custom grammar:  
+The **grammar set** itself needs to be parsed before being used with `parse`.
+
+### Example
+```
+pkg temperature;
+
+grammar temperature_notation
+{
+	0 temperature (#double value)°K
+	{
+		ret temperature(value);
+	}
+	0 temperature (#double value)°C
+	{
+		ret temperature(value+273.15);
+	}
+	0 temperature (#double value)°F
+	{
+		ret temperature((value+459.67)*1.8);
+	}
+	0 string (temperature t)°K
+	{
+		ret default_locale::fp_to_string(t.get_value_kelvin());
+	}
+	0 string (temperature t)°C
+	{
+		ret default_locale::fp_to_string(t.get_value_kelvin()-273.15);
+	}
+	0 string (temperature t)°F
+	{
+		ret default_locale::fp_to_string(t.get_value_kelvin()/1.8-459.67)
+	}
+}
+
+grammar temperature_arithmetic
+{
+	1 temperature (temperature a)*(temperature b)
+	{
+		ret a.get_value_kelvin()*b.get_value_kelvin();
+	}
+	1 temperature (temperature a)/(temperature b)
+	{
+		ret a.get_value_kelvin()/b.get_value_kelvin();
+	}
+	2 temperature (temperature a)+(temperature b)
+	{
+		ret a.get_value_kelvin()+b.get_value_kelvin();
+	}
+	2 temperature (temperature a)-(temperature b)
+	{
+		ret a.get_value_kelvin()-b.get_value_kelvin();
+	}
+}
+
+parse temperature_arithmetic;
+parse temperature_notation;
+
+class temperature serialisable
+{
+	#double value_kelvin;
+
+	constructor(#double set_value_kelvin)
+	{
+		value_kelvin = set_value_kelvin;
+	}
+
+	public #double get_value_kelvin()
+	{
+		ret value_kelvin;
+	}
+
+}
+```
 
 ---
 
@@ -310,7 +400,10 @@ public class bank
 		name = set_name;
 	}
 
-
+	public string get_name()
+	{
+		ret name;
+	}
 
 }
 
