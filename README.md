@@ -196,6 +196,7 @@ This allows mutating operations to occur. This must also be declared in interfac
 ### 2. To allow a class to have mutating methods.
 
 `mut` is placed after the class name, making it a mutable type.
+
 ---
 
 ## Developer Guidelines
