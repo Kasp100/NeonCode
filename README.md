@@ -185,11 +185,25 @@ Once initialised, its size cannot be changed though its values can.
 
 ---
 
+## Mutable declarations
+`mut` has two usages:
+
+### 1. To allow a method to mutate the data of the object.
+
+`mut` is placed after the closing curly bracket, making the method **mutating**.
+This allows mutating operations to occur. This must also be declared in interfaces.
+
+### 2. To allow a class to have mutating methods.
+
+`mut` is placed after the class name, making it a mutable type.
+---
+
 ## Developer Guidelines
 
 1. Avoid using `var` if the field or variable will never be reassigned.
 2. Avoid using `shared` if the object or array is never referenced elsewhere.
 3. Avoid using `mut:` if the object or array will never be mutated from the scope its referenced by.
+4. Avoid using `mut` if the method does not mutate the object, or the class is an unmutable type.
 
 ---
 
@@ -307,7 +321,7 @@ public class person
 		ret birthdate;
 	}
 
-	public void set_name(string new_name)
+	public void set_name(string new_name) mut
 	{
 		name = new_name;
 	}
@@ -335,7 +349,7 @@ public class bank_account
 		transactions_history = ();
 	}
 
-	public void perform_transaction(transaction tr)
+	public void perform_transaction(transaction tr) mut
 	{
 		transactions_history.add(tr);
 	}
