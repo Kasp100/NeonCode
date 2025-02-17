@@ -243,18 +243,6 @@ grammar temperature_notation
 	{
 		ret temperature((value+459.67)*1.8);
 	}
-	0 string (temperature t)°K
-	{
-		ret default_locale::fp_to_string(t.get_value_kelvin());
-	}
-	0 string (temperature t)°C
-	{
-		ret default_locale::fp_to_string(t.get_value_kelvin()-273.15);
-	}
-	0 string (temperature t)°F
-	{
-		ret default_locale::fp_to_string(t.get_value_kelvin()/1.8-459.67)
-	}
 }
 
 grammar temperature_arithmetic
