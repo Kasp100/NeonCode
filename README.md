@@ -241,7 +241,7 @@ grammar temperature_notation
 	}
 	0 temperature (#double value)°F
 	{
-		ret temperature((value+459.67)*1.8);
+		ret temperature((value+459.67)/1.8);
 	}
 }
 
