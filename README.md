@@ -374,7 +374,7 @@ public class transaction
 
 	public constructor(bank_account set_source, bank_account set_destination, #float set_amount, string<255> set_comment) {
 		source = set_source;
-		destination = set_declaration;
+		destination = set_destination;
 		amount = set_amount;
 		comment = set_comment;
 	}
