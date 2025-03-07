@@ -235,34 +235,41 @@ grammar temperature_notation
 	{
 		ret temperature(value);
 	}
+
 	0 temperature (#double value)°C
 	{
 		ret temperature(value+273.15);
 	}
+
 	0 temperature (#double value)°F
 	{
 		ret temperature((value+459.67)/1.8);
 	}
+
 }
 
 grammar temperature_arithmetic
 {
 	1 temperature (temperature a)*(temperature b)
 	{
-		ret a.get_value_kelvin()*b.get_value_kelvin();
+		ret temperature(a.get_value_kelvin()*b.get_value_kelvin());
 	}
+
 	1 temperature (temperature a)/(temperature b)
 	{
-		ret a.get_value_kelvin()/b.get_value_kelvin();
+		ret temperature(a.get_value_kelvin()/b.get_value_kelvin());
 	}
+
 	2 temperature (temperature a)+(temperature b)
 	{
-		ret a.get_value_kelvin()+b.get_value_kelvin();
+		ret temperature(a.get_value_kelvin()+b.get_value_kelvin());
 	}
+
 	2 temperature (temperature a)-(temperature b)
 	{
-		ret a.get_value_kelvin()-b.get_value_kelvin();
+		ret temperature(a.get_value_kelvin()-b.get_value_kelvin());
 	}
+
 }
 
 parse temperature_arithmetic;
