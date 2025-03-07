@@ -460,7 +460,6 @@ public class license_plate
 			else
 			{
 				validated_chars.add(c);
-				idx++;
 			}
 		}
 
